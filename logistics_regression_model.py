@@ -157,3 +157,45 @@ def cross_entropy():
     cost -= np.sum(np.log(a[:,ind]))
     
     return cost/y.size
+
+def fit(self, X, y):
+    '''Trains logistic regression model using gradient ascent
+    to gain maximum likelihood on the training data
+    Args:
+        X : Numpy array (num_examples, num_features)
+        y : Numpy array (num_examples, )
+    Returns: VOID
+    '''
+
+    num_examples = X.shape[0]
+    num_features = X.shape[1]
+
+    ### START CODE HERE
+
+    # Initialize weights with appropriate shape
+    weights = np.zeros(num_features,)
+    
+    loss=[]
+
+    # Perform gradient ascent
+    for i in range(max_iterations):
+        # Define the linear hypothesis(z) first
+        # HINT: what is our hypothesis function in linear regression, remember?
+        z = np.dot(weights)
+
+        # Output probability value by appplying sigmoid on z
+        y_pred = igmoid(z)
+        # y_pred=self.predict(y_pred, threshold=0.5)
+
+        # Calculate the gradient values
+        # This is just vectorized efficient way of implementing gradient. Don't worry, we will discuss it later.
+        gradient = np.mean((y-y_pred)*X.T, axis=1)
+
+        # Update the weights
+        # Caution: It is gradient ASCENT not descent
+        weights = self.weights+self.learning_rate*gradient
+
+        # Calculating log likelihood
+        likelihood = self.log_likelihood(y, y_pred)
+
+        self.likelihoods.append(likelihood)
