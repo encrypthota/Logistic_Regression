@@ -181,3 +181,37 @@ print("Generalizability on training set : ", results.mean(), " +/- ", results.st
 """Feature Selection using Variance Thresholding"""
 
 print("Original shape of X_train : ", X_train.shape)
+
+# check the variance of X.
+# Note the type(X) should be a pandas DataFrame as stated earlier.
+
+X.var()
+
+"""Remove low variance features using Variance Threshold. 
+Note : If the variance is less, it implies the values of that particular feature spans limited range of values.
+"""
+
+# play around with the threshold values
+
+sel = VarianceThreshold(threshold = (0.01))
+sel.fit(X_train)
+
+X_train.head()
+
+# do not edit.
+
+selected_features = list(X_train.columns[sel.get_support()])
+print("Selected features : ", selected_features)
+print("Removed features : ", list(X_train.columns[~sel.get_support()]))
+
+# Delete the removed features from the train_columns list.
+removed_features=X_train.columns[~sel.get_support()]
+for i in removed_features:
+  train_columns.remove(i)
+
+#transform / remove the low variance features
+
+X_train = sel.transform(X_train)
+X_test = sel.transform(X_test)
+
+train_columns
