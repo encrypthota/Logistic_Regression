@@ -113,3 +113,37 @@ print(accuracy(y_train,y_pred))
 # Print accuracy on test data
 y_pred = model.predict(X_test)
 print(accuracy(y_test,y_pred))
+
+"""## Part 1.2: Use Logistic Regression from sklearn on the same dataset
+#### Tasks
+- Define X and y again for sklearn Linear Regression model
+- Train Logistic Regression Model on the training set (sklearn.linear_model.LogisticRegression class)
+- Run the model on testing set
+- Print 'accuracy' obtained on the testing dataset (sklearn.metrics.accuracy_score function)
+#### Further fun (will not be evaluated)
+- Compare accuracies of your model and sklearn's logistic regression model
+#### Helpful links
+- Classification metrics in sklearn: https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics
+"""
+
+from sklearn.metrics import accuracy_score
+
+# Define X and y
+X = np.array(data.iloc[0:,0:-1])
+y = np.array(data.iloc[:,-1])
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
+
+# Initialize the model from sklearn
+from sklearn.linear_model import LogisticRegression
+model=LogisticRegression()
+
+# Fit the model
+model.fit(X_train, y_train)
+
+# Predict on testing set X_test
+y_pred = model.predict(X_test)
+
+# Print Accuracy on testing set
+test_accuracy_sklearn = accuracy_score(y_test, y_pred)
+
+print(f"\nAccuracy on testing set: {test_accuracy_sklearn}")
