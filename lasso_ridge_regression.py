@@ -136,6 +136,8 @@ print("On Training set : ", r2_score(y_train, y_pred_train))
 y_pred_test = model.predict(X_test)
 print("On testing set : ", r2_score(y_test,y_pred_test))
 
+
+
 """Do not edit the code given below. Observe the distribution of weights. 
 Which feature has the maximum coefficient ? <br>
 Keep this figure as a base reference for visualizing the effects of l1-norm and l2-norm later in this notebook.
@@ -215,3 +217,68 @@ X_train = sel.transform(X_train)
 X_test = sel.transform(X_test)
 
 train_columns
+
+"""## Lasso Regression : L1 - norm"""
+
+from sklearn.linear_model import Lasso
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 100)
+
+# hyperparamater alpha : controls the degree of penaliation.
+# play around with alpha values.
+alpha = 1.0
+
+#create the model
+model_lasso = Lasso(alpha = alpha)
+
+#fit the model on training data
+model_lasso.fit(X_train, y_train)
+
+#calculate the score on training data
+y_pred_train = model_lasso.predict(X_train)
+print("On train set : ", r2_score(y_train, y_pred_train))
+
+
+
+
+
+#evaluate the model on testing data
+y_pred_test = model_lasso.predict(X_test)
+print("On test set : ", r2_score(y_test, y_pred_test))
+
+# visualize the coefficients.
+# compare the results with the plot obtained earlier.
+
+custom_summary(model_lasso, X_train.columns, "Lasso Regression Coefficients.")
+
+"""We can see that Lasso regression has automatically done a lot of feature selection. Some columns might have zero coefficients. It has been effectively removed. <br> 
+The model is much more interpretable than the baseline linear regression model.
+<br>
+Hence, Lasso regression has embedded Feature Selection.
+# Ridge Regression : L2 - norm
+"""
+
+from sklearn.linear_model import Ridge
+
+# hyperparamater alpha : controls the degree of penaliation.
+# play around with alpha values.
+alpha = 1.0
+
+#create the model
+model_ridge = Ridge(alpha = alpha)
+
+#fit the model on training data
+model_ridge.fit(X_train, y_train)
+
+#calculate the score on training data
+y_pred_train = model_ridge.predict(X_train)
+print("On train set : ", r2_score(y_train, y_pred_train))
+
+#evaluate the model on testing data
+y_pred_test = model_ridge.predict(X_test)
+print("On test set : ", r2_score(y_test, y_pred_test))
+
+# visualize the coefficients.
+# compare the results with the plot obtained earlier.
+
+custom_summary(model_ridge, X_train.columns, "Ridge Regression Coefficients.")
